@@ -1,4 +1,5 @@
-base-wordpress
-==============
+# Sobre esta repo
 
-Contenedor wordpress basado en el oficial
+Basado en la repo official de [wordpress](https://registry.hub.docker.com/_/wordpress/).
+
+Solo he quitado la línea VOLUME del Dockerfile
