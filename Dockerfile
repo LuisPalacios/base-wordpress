@@ -1,14 +1,15 @@
-FROM php:5.6-apache
+#FROM php:5.6-apache
+FROM luispa/base-apache
 
-RUN apt-get update && apt-get install -y rsync && rm -r /var/lib/apt/lists/*
+# RUN apt-get update && apt-get install -y rsync && rm -r /var/lib/apt/lists/*
 
-RUN a2enmod rewrite
+#RUN a2enmod rewrite
 
 # install the PHP extensions we need
-RUN apt-get update && apt-get install -y libpng12-dev && rm -rf /var/lib/apt/lists/* \
-	&& docker-php-ext-install gd \
-	&& apt-get purge --auto-remove -y libpng12-dev
-RUN docker-php-ext-install mysqli
+#RUN apt-get update && apt-get install -y libpng12-dev && rm -rf /var/lib/apt/lists/* \
+#	&& docker-php-ext-install gd \
+#	&& apt-get purge --auto-remove -y libpng12-dev
+#RUN docker-php-ext-install mysqli
 
 #VOLUME /var/www/html
 
