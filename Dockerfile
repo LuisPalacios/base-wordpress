@@ -22,8 +22,14 @@ RUN curl -o wordpress.tar.gz -SL https://wordpress.org/wordpress-${WORDPRESS_UPS
 	&& tar -xzf wordpress.tar.gz -C /usr/src/ \
 	&& rm wordpress.tar.gz
 
-COPY docker-entrypoint.sh /entrypoint.sh
+# Ejecutable a arrancar siempre
+#
+ADD entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-# grr, ENTRYPOINT resets CMD now
+# Punto de entrada al contendor
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["apache2", "-DFOREGROUND"]
+
+# Comando a ejecutar por defecto (si no se especifica)
+CMD ["/usr/sbin/apache2ctl", "-D FOREGROUND"]
+
