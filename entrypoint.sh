@@ -4,32 +4,72 @@
 #
 #set -eux
 
+## Link con SQL
+#
+#
+#if [ -z "${MYSQL_PORT_3306_TCP}" ]; then
+#	echo >&2 "error: falta la variable MYSQL_PORT_3306_TCP"
+#	echo >&2 "  Olvidaste --link un_contenedor_mysql:mysql ?"
+#	exit 1
+#fi
+#  La dirección IP del HOST donde reside MySQL se calcula automáticamente
+#mysqlLink="${MYSQL_PORT_3306_TCP#tcp://}"
+#mysqlHost=${mysqlLink%%:*}
+#mysqlPort=${mysqlLink##*:}
+
+## Usuario y password de root en el MYSQL Server
+#
+#  #Tiene que estar hecho el Link con el contenedor MySQL y desde él
+#  #averiguo la contraseña de root (MYSQL_ENV_MYSQL_ROOT_PASSWORD)
+#	#if [ "${SQL_ROOT}" = "root" ]; then	
+#	#	: ${SQL_ROOT_PASSWORD:=$MYSQL_ENV_MYSQL_ROOT_PASSWORD}
+#	#fi
+#
+if [ -z "${mysqlLink}" ]; then
+	echo >&2 "error: falta la variable mysqlLink"
+	exit 1
+fi
+if [ -z "${mysqlHost}" ]; then
+	echo >&2 "error: falta la variable mysqlHost"
+	exit 1
+fi
+if [ -z "${mysqlPort}" ]; then
+	echo >&2 "error: falta la variable mysqlPort"
+	exit 1
+fi
+: ${SQL_ROOT:="root"}
+if [ -z "${SQL_ROOT_PASSWORD}" ]; then
+	echo >&2 "error: falta la variable MYSQL_ROOT_PASSWORD"
+	exit 1
+fi
+
+
 ## Compruebo que se ha hecho el Link:
 #
 #
-if [ -z "${MYSQL_PORT_3306_TCP}" ]; then
-	echo >&2 "error: falta la variable MYSQL_PORT_3306_TCP"
-	echo >&2 "  Olvidaste --link un_contenedor_mysql:mysql ?"
-	exit 1
-fi
-#  La dirección IP del HOST donde reside MySQL se calcula automáticamente
-mysqlLink="${MYSQL_PORT_3306_TCP#tcp://}"
-mysqlHost=${mysqlLink%%:*}
-mysqlPort=${mysqlLink##*:}
+#if [ -z "${MYSQL_PORT_3306_TCP}" ]; then
+#	echo >&2 "error: falta la variable MYSQL_PORT_3306_TCP"
+#	echo >&2 "  Olvidaste --link un_contenedor_mysql:mysql ?"
+#	exit 1
+#fi
+##  La dirección IP del HOST donde reside MySQL se calcula automáticamente
+#mysqlLink="${MYSQL_PORT_3306_TCP#tcp://}"
+#mysqlHost=${mysqlLink%%:*}
+#mysqlPort=${mysqlLink##*:}
 
 ## Conseguir la password de root desde el Link con el contenedor MySQL
 #
 #  Tiene que estar hecho el Link con el contenedor MySQL y desde él
 #  averiguo la contraseña de root (MYSQL_ENV_MYSQL_ROOT_PASSWORD)
 #
-: ${SQL_ROOT:="root"}
-if [ "${SQL_ROOT}" = "root" ]; then
-	: ${SQL_ROOT_PASSWORD:=$MYSQL_ENV_MYSQL_ROOT_PASSWORD}
-fi
-if [ -z "${SQL_ROOT_PASSWORD}" ]; then
-	echo >&2 "error: falta la variable MYSQL_ROOT_PASSWORD"
-	exit 1
-fi
+#: ${SQL_ROOT:="root"}
+#if [ "${SQL_ROOT}" = "root" ]; then
+#	: ${SQL_ROOT_PASSWORD:=$MYSQL_ENV_MYSQL_ROOT_PASSWORD}
+#fi
+#if [ -z "${SQL_ROOT_PASSWORD}" ]; then
+#	echo >&2 "error: falta la variable MYSQL_ROOT_PASSWORD"
+#	exit 1
+#fi
 
 ## if we're linked to MySQL, and we're using the root user, and our linked
 ## container has a default "root" password set up and passed through... :)
@@ -122,6 +162,7 @@ set_config 'DB_HOST' "${mysqlLink}"
 set_config 'DB_USER' "${SERVICE_DB_USER}"
 set_config 'DB_PASSWORD' "${SERVICE_DB_PASS}"
 set_config 'DB_NAME' "${SERVICE_DB_NAME}"
+#set_config 'WPLANG' "es_ES"
 
 # allow any of these "Authentication Unique Keys and Salts." to be specified via
 # environment variables with a "WORDPRESS_" prefix (ie, "WORDPRESS_AUTH_KEY")
