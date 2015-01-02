@@ -5,32 +5,6 @@ Este repositorio alberga un *contenedor Docker* para montar WordPress, está aut
 
 ## Ficheros
 
-* **Dockerfile**: Para crear la base del servicio
-* **do.sh**: Punto de entrada en el contenedor
-
-
-## Instalación de la imagen
-
-Para usar la imagen desde el registry de docker hub
-
-    totobo ~ $ docker pull luispa/base-wordpress
-
-
-## Clonar el repositorio
-
-Si quieres clonar el repositorio lo encontrarás en Github, este es el comando poder trabajar con él directamente
-
-    ~ $ clone https://github.com/LuisPalacios/docker-wordpress
-
-Luego puedes crear la imagen localmente con el siguiente comando
-
-    $ docker build -t luispa/base-wordpress ./
-
-
-
-
-## Ficheros
-
 * **Dockerfile**: Para crear la base de servicio.
 * **do.sh**: Para arrancar el contenedor creado con esta imagen.
 
