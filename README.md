@@ -2,6 +2,7 @@
 
 Este repositorio alberga un *contenedor Docker* para montar WordPress, está automatizado en el Registry Hub de Docker [luispa/base-wordpress](https://registry.hub.docker.com/u/luispa/base-wordpress/) conectado con el proyecto en [GitHub base-wordpress](https://github.com/LuisPalacios/base-wordpress)
 
+Consulta este [apunte técnico sobre varios servicios en contenedores Docker](http://www.luispa.com/?p=172) para acceder a otros contenedores Docker y sus fuentes en GitHub.
 
 ## Ficheros
 
