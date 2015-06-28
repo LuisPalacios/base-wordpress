@@ -63,6 +63,10 @@ RUN apt-get update && apt-get install -y libpng12-dev && rm -rf /var/lib/apt/lis
 	&& apt-get purge --auto-remove -y libpng12-dev
 RUN docker-php-ext-install mysqli
 
+# Incremento el tamaño máximo de fichero que se permite subir
+RUN touch /usr/local/etc/php/conf.d/uploads.ini \
+    && echo "upload_max_filesize = 30M;" >> /usr/local/etc/php/conf.d/uploads.ini
+
 ENV WORDPRESS_VERSION 4.0.1
 ENV WORDPRESS_UPSTREAM_VERSION 4.0.1
 ENV WORDPRESS_SHA1 ef1bd7ca90b67e6d8f46dc2e2a78c0ec4c2afb40
