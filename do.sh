@@ -393,14 +393,6 @@ EOPHP
 	echo >&2 "Verificada la BD del servicio y sus permisos"
 	echo >&2 "-----------------------------------------------------------"
 
-
-	## Cambio los permisos al directorio de wordpress
-	#
-	#
-	mkdir -p /usr/local/etc/php/conf.d
-    echo "upload_max_filesize = 30M;" > /usr/local/etc/php/conf.d/uploads.ini
-
-
 	## Cambio los permisos al directorio de wordpress
 	#
 	#
