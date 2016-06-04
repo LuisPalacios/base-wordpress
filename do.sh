@@ -405,6 +405,10 @@ EOPHP
 
 fi
 
+# Habilito modulos
+#
+a2enmod expires
+a2enmod headers
 
 ##################################################################
 #
