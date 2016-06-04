@@ -55,28 +55,28 @@ RUN mkdir -p /config/tz && mv /etc/timezone /config/tz/ && ln -s /config/tz/time
 #
 RUN apt-get update && apt-get install -y rsync && rm -r /var/lib/apt/lists/*
 
-RUN a2enmod rewrite
+RUN a2enmod rewrite expires headers
 
 # Instalo las extensiones PHP que necesito
-RUN apt-get update && apt-get install -y libpng12-dev && rm -rf /var/lib/apt/lists/* \
-	&& docker-php-ext-install gd \
-	&& apt-get purge --auto-remove -y libpng12-dev
-RUN docker-php-ext-install mysqli
+# install the PHP extensions we need
+RUN apt-get update && apt-get install -y libpng12-dev libjpeg-dev && rm -rf /var/lib/apt/lists/* \
+    && docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
+    && docker-php-ext-install gd mysqli opcache
 
 # Incremento el tamaño máximo de fichero que se permite subir
 RUN touch /usr/local/etc/php/conf.d/uploads.ini \
     && echo "upload_max_filesize = 30M;" >> /usr/local/etc/php/conf.d/uploads.ini
 
-ENV WORDPRESS_VERSION 4.0.1
-ENV WORDPRESS_UPSTREAM_VERSION 4.0.1
-ENV WORDPRESS_SHA1 ef1bd7ca90b67e6d8f46dc2e2a78c0ec4c2afb40
+ENV WORDPRESS_VERSION 4.5.2
+ENV WORDPRESS_SHA1 bab94003a5d2285f6ae76407e7b1bbb75382c36e
 
 # Los tarballs upstream incluyen ./wordpress/ por lo que quedan en /usr/src/wordpress
-RUN curl -o wordpress.tar.gz -SL https://wordpress.org/wordpress-${WORDPRESS_UPSTREAM_VERSION}.tar.gz \
-	&& echo "$WORDPRESS_SHA1 *wordpress.tar.gz" | sha1sum -c - \
-	&& tar -xzf wordpress.tar.gz -C /usr/src/ \
-	&& rm wordpress.tar.gz
-
+RUN curl -o wordpress.tar.gz -SL https://wordpress.org/wordpress-${WORDPRESS_VERSION}.tar.gz \
+    && echo "$WORDPRESS_SHA1 *wordpress.tar.gz" | sha1sum -c - \
+    && tar -xzf wordpress.tar.gz -C /usr/src/ \
+    && rm wordpress.tar.gz \
+    && chown -R www-data:www-data /usr/src/wordpress
+	     
 # Preparo Apache
 RUN echo "ServerName www" >> /etc/apache2/apache2.conf
 RUN echo "IncludeOptional sites-enabled/*.conf" >> /etc/apache2/apache2.conf
